@@ -3,7 +3,7 @@ package chaegang.pl_api.domain
 import jakarta.persistence.*
 
 @Entity
-class Performance(
+class AthleteGameRecord(
     val equipment: String? = null,
     val age:Float? = null,
     val ageClass: String? = null,
