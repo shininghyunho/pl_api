@@ -1,14 +1,14 @@
 package chaegang.pl_api.domain
 
 import jakarta.persistence.*
-import java.time.LocalTime
+import java.time.LocalDate
 
 @Entity
 class Game (
     val event: String? = null,
     val country: String? = null,
     val state: String? = null,
-    val date: LocalTime? = null,
+    val date: LocalDate? = null,
     val meetCountry: String? = null,
     val meetState: String? = null,
     val meetTown: String? = null,
