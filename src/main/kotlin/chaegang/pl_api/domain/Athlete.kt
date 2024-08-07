@@ -7,8 +7,8 @@ import jakarta.persistence.Id
 
 @Entity
 class Athlete(
-    var name: String? = null,
-    var sex : String? = null,
+    val name: String,
+    val sex : String? = null,
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
