@@ -14,7 +14,7 @@ class Game (
     val meetTown: String? = null,
     val meetName: String? = null,
     @ManyToOne
-    @JoinColumn(name = "federation_id")
+    @JoinColumn(name = "federation_id", nullable = false)
     val federation: Federation,
 ) {
     @Id

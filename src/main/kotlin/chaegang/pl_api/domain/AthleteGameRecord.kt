@@ -32,10 +32,10 @@ class AthleteGameRecord(
     val tested: Boolean? = null,
     val sanctioned: Boolean? = null,
     @ManyToOne
-    @JoinColumn(name = "athlete_id")
+    @JoinColumn(name = "athlete_id", nullable = false)
     val athlete: Athlete,
     @ManyToOne
-    @JoinColumn(name = "game_id")
+    @JoinColumn(name = "game_id", nullable = false)
     val game: Game,
 ) {
     @Id
