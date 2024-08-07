@@ -5,10 +5,10 @@ import jakarta.persistence.*
 @Entity
 class Federation (
     @Column(unique = true)
-    var name: String? = null,
+    val  name: String,
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_federation_id")
-    var parentFederation: Federation? = null
+    val parentFederation: Federation? = null
 ){
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
