@@ -4,6 +4,7 @@ import jakarta.persistence.*
 
 @Entity
 class Federation (
+    @Column(unique = true)
     var name: String? = null,
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_federation_id")
