@@ -4,6 +4,10 @@ import jakarta.persistence.*
 import java.time.LocalDate
 
 @Entity
+@Table(
+    indexes = [Index(name="idx_date_meet_name", columnList = "date, meetName")],
+    uniqueConstraints = [UniqueConstraint(columnNames = ["date", "meetName"])]
+)
 class Game (
     val event: String? = null,
     val country: String? = null,
