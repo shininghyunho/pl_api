@@ -5,8 +5,7 @@ import java.time.LocalDate
 
 @Entity
 @Table(
-    indexes = [Index(name="idx_date_meet_name", columnList = "date, meetName")],
-    uniqueConstraints = [UniqueConstraint(columnNames = ["date", "meetName"])]
+    indexes = [Index(name="idx_date_meet_name", columnList = "date, meet_name", unique = true)],
 )
 class Game (
     val event: String? = null,

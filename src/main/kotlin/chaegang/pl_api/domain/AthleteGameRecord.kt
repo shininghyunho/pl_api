@@ -3,6 +3,9 @@ package chaegang.pl_api.domain
 import jakarta.persistence.*
 
 @Entity
+@Table(
+    indexes = [Index(name="idx_athlete_game", columnList = "athlete_id, game_id", unique = true)],
+)
 class AthleteGameRecord(
     val equipment: String? = null,
     val age:Float? = null,
