@@ -1,12 +1,13 @@
 package chaegang.pl_api.domain
 
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
+import jakarta.persistence.*
 
 @Entity
+@Table(
+    indexes = [Index(name="idx_athlete_name", columnList = "name", unique = true)],
+)
 class Athlete(
+    @Column(unique = true)
     val name: String,
     val sex : String? = null,
 ) {
