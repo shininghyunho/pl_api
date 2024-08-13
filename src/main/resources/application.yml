@@ -3,6 +3,6 @@ spring:
     active: local
     group:
       local :
-        - local_db
+        - local-db
       dev :
-        - dev_db
+        - dev-db
