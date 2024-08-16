@@ -1,4 +1,4 @@
-package chaegang.pl_api.domain.statistics
+package chaegang.pl_api.domain.statistics.dto
 
 import java.time.LocalDate
 class AthleteResultDto (

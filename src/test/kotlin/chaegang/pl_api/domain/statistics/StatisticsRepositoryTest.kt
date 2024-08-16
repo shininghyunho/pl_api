@@ -2,19 +2,22 @@ package chaegang.pl_api.domain.statistics
 
 import chaegang.pl_api.domain.athlete.Athlete
 import chaegang.pl_api.domain.athlete.AthleteRepository
+import chaegang.pl_api.domain.athlete.SexType
 import chaegang.pl_api.domain.athleteGameRecord.AthleteGameRecord
 import chaegang.pl_api.domain.athleteGameRecord.AthleteGameRecordRepository
+import chaegang.pl_api.domain.athleteGameRecord.EquipmentType
 import chaegang.pl_api.domain.federation.Federation
 import chaegang.pl_api.domain.federation.FederationRepository
 import chaegang.pl_api.domain.game.Game
 import chaegang.pl_api.domain.game.GameRepository
+import chaegang.pl_api.domain.statistics.dto.AthleteResultDto
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.extensions.spring.SpringTestExtension
 import io.kotest.extensions.spring.SpringTestLifecycleMode
 import io.kotest.matchers.comparables.shouldBeGreaterThan
-import io.kotest.matchers.doubles.shouldBeGreaterThan
 import io.kotest.matchers.doubles.shouldBeGreaterThanOrEqual
 import io.kotest.matchers.doubles.shouldBeLessThan
+import io.kotest.matchers.doubles.shouldBeLessThanOrEqual
 import io.kotest.matchers.ints.shouldBeLessThanOrEqual
 import io.kotest.matchers.shouldBe
 import org.springframework.beans.factory.annotation.Autowired
@@ -35,7 +38,6 @@ class StatisticsRepositoryTest (
     extensions(SpringTestExtension(SpringTestLifecycleMode.Root))
 
     fun saveEntity() {
-        // save federation
         val ipf = federationRepository.save(Federation(
             name = "IPF"
         ))
@@ -125,20 +127,20 @@ class StatisticsRepositoryTest (
         val response : List<AthleteResultDto> = statisticsRepository.findTopAthletes(
             minBodyWeight = minBodyWeight,
             maxBodyWeight = maxBodyWeight,
-            equipment = "Raw",
-            sex = "M"
+            equipmentType = EquipmentType.RAW,
+            sexType = SexType.M,
         )
         should("response should not be empty") {
             response.isEmpty() shouldBe false
         }
-        should("response >= minBodyWeight") {
+        should("response > minBodyWeight") {
             response.forEach {
-                it.bodyWeight!! shouldBeGreaterThanOrEqual(minBodyWeight)
+                it.bodyWeight!! shouldBeGreaterThan(minBodyWeight)
             }
         }
-        should("response < maxBodyWeight") {
+        should("response <=  maxBodyWeight") {
             response.forEach {
-                it.bodyWeight!! shouldBeLessThan(maxBodyWeight)
+                it.bodyWeight!! shouldBeLessThanOrEqual(maxBodyWeight)
             }
         }
         should("response should be sorted by total") {
@@ -159,8 +161,23 @@ class StatisticsRepositoryTest (
         val response : List<AthleteResultDto> = statisticsRepository.findTopAthletes(
             minBodyWeight = minBodyWeight,
             maxBodyWeight = maxBodyWeight,
-            equipment = "Raw",
-            sex = "M"
+            equipmentType = EquipmentType.RAW,
+            sexType = SexType.M
+        )
+        should("response should be empty") {
+            response.isEmpty() shouldBe true
+        }
+    }
+    context("findTopAthletes limit < 1") {
+        saveEntity()
+        val minBodyWeight = 66.0
+        val maxBodyWeight = 74.0
+        val response : List<AthleteResultDto> = statisticsRepository.findTopAthletes(
+            minBodyWeight = minBodyWeight,
+            maxBodyWeight = maxBodyWeight,
+            equipmentType = EquipmentType.RAW,
+            sexType = SexType.M,
+            limit = -10
         )
         should("response should be empty") {
             response.isEmpty() shouldBe true
