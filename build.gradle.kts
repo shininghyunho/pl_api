@@ -30,8 +30,17 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-}
 
+    // mockk
+    testImplementation("io.mockk:mockk:1.13.12")
+
+    // kotest
+    val kotestVersion = "5.9.1"
+    testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion") // kotest 를 junit 처럼 사용
+    testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion") // kotest 의 assertion(shouldBe, shouldNotBe 등) 사용
+    testImplementation("io.kotest:kotest-property-jvm:$kotestVersion") // property based testing
+    testImplementation("io.kotest.extensions:kotest-extensions-spring:1.3.0") // spring test}
+}
 kotlin {
     compilerOptions {
         freeCompilerArgs.addAll("-Xjsr305=strict")

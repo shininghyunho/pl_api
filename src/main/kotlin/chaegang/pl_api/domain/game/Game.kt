@@ -1,5 +1,6 @@
-package chaegang.pl_api.domain
+package chaegang.pl_api.domain.game
 
+import chaegang.pl_api.domain.federation.Federation
 import jakarta.persistence.*
 import java.time.LocalDate
 

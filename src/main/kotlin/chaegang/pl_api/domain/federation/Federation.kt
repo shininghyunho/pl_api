@@ -1,4 +1,4 @@
-package chaegang.pl_api.domain
+package chaegang.pl_api.domain.federation
 
 import jakarta.persistence.*
 

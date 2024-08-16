@@ -1,4 +1,4 @@
-package chaegang.pl_api.domain
+package chaegang.pl_api.domain.athlete
 
 import jakarta.persistence.*
 

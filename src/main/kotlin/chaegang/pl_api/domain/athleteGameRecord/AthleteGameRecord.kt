@@ -1,5 +1,7 @@
-package chaegang.pl_api.domain
+package chaegang.pl_api.domain.athleteGameRecord
 
+import chaegang.pl_api.domain.game.Game
+import chaegang.pl_api.domain.athlete.Athlete
 import jakarta.persistence.*
 
 @Entity
@@ -29,7 +31,7 @@ class AthleteGameRecord(
     val deadlift3: Float? = null,
     val deadlift4: Float? = null,
     val bestDeadlift: Float? = null,
-    val total: String? = null,
+    val total: Float? = null,
     val place: Int? = null,
     val dots: Double? = null,
     val wilks: Double? = null,
