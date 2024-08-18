@@ -1,32 +1,33 @@
-package chaegang.pl_api.domain.statistics
+package chaegang.pl_api.domain.topAthletes
 
 import chaegang.pl_api.domain.athlete.SexType
 import chaegang.pl_api.domain.athleteGameRecord.EquipmentType
-import chaegang.pl_api.domain.statistics.dto.AthleteResultDto
+import chaegang.pl_api.domain.topAthletes.dto.TopAthleteQueryResult
 import jakarta.persistence.EntityManager
 import jakarta.persistence.PersistenceContext
 import jakarta.persistence.TypedQuery
 import org.springframework.stereotype.Repository
 
 @Repository
-class StatisticsRepository {
+class TopAthletesRepository {
     @PersistenceContext
     private lateinit var entityManager: EntityManager
 
     fun findTopAthletes(
-        minBodyWeight: Double,
-        maxBodyWeight: Double,
+        minExclusiveBodyWeight: Double,
+        maxInclusiveBodyWeight: Double,
         equipmentType: EquipmentType,
         sexType: SexType,
         limit: Int = 10
-    ): List<AthleteResultDto> {
+    ): List<TopAthleteQueryResult> {
         val equipment = equipmentType.toOriginalName()
         val sex = sexType.toOriginalName()
         // validate parameters
         if(limit<1) return emptyList()
 
-        val query:TypedQuery<AthleteResultDto> = entityManager.createQuery("""
-            SELECT new chaegang.pl_api.domain.statistics.dto.AthleteResultDto(
+        val query:TypedQuery<TopAthleteQueryResult> = entityManager.createQuery(
+            """
+            SELECT new chaegang.pl_api.domain.topAthletes.dto.TopAthleteQueryResult(
                 a.name,
                 r.total,
                 r.bestSquat,
@@ -50,15 +51,15 @@ class StatisticsRepository {
             JOIN Game g ON r.game.id = g.id
             JOIN Federation f ON g.federation.id = f.id
             JOIN Federation pf ON f.parentFederation.id = pf.id
-            WHERE r.bodyWeight > :minBodyWeight AND r.bodyWeight <= :maxBodyWeight
+            WHERE r.bodyWeight > :minInclusiveBodyWeight AND r.bodyWeight <= :maxInclusiveBodyWeight
             AND r.equipment = :equipment
             AND a.sex = :sex
             ORDER BY r.total DESC
-        """, AthleteResultDto::class.java)
+        """, TopAthleteQueryResult::class.java)
 
         // set parameters
-        query.setParameter("minBodyWeight", minBodyWeight)
-        query.setParameter("maxBodyWeight", maxBodyWeight)
+        query.setParameter("minInclusiveBodyWeight", minExclusiveBodyWeight)
+        query.setParameter("maxInclusiveBodyWeight", maxInclusiveBodyWeight)
         query.setParameter("equipment", equipment)
         query.setParameter("sex",sex)
         query.maxResults = limit
