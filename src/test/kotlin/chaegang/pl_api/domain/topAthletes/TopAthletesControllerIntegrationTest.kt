@@ -18,6 +18,7 @@ import io.kotest.matchers.doubles.shouldBeLessThanOrEqual
 import io.kotest.matchers.floats.shouldBeLessThanOrEqual
 import io.kotest.matchers.string.shouldContain
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
@@ -31,12 +32,13 @@ class TopAthletesControllerIntegrationTest(
     @Autowired val athleteRepository: AthleteRepository,
     @Autowired val federationRepository: FederationRepository,
     @Autowired val gameRepository: GameRepository,
-    @Autowired val athleteGameRecordRepository: AthleteGameRecordRepository
+    @Autowired val athleteGameRecordRepository: AthleteGameRecordRepository,
+    @Value("\${spring.profiles.active}") val activeProfile: String,
 ) : BehaviorSpec() {
     val gson = Gson()
         init {
             Given("Get /top-athletes") {
-                saveEntity()
+                if(activeProfile.equals("local")) saveEntity()
                 val request = TopAthletesRequest(
                     minExclusiveBodyWeight = 66.0,
                     maxInclusiveBodyWeight = 74.0,

@@ -133,18 +133,18 @@ class TopAthletesRepositoryTest (
         }
         should("response > minExclusiveBodyWeight") {
             response.forEach {
-                it.bodyWeight shouldBeGreaterThan(minExclusiveBodyWeight)
+                it.bodyWeight?.shouldBeGreaterThan((minExclusiveBodyWeight))
             }
         }
         should("response <=  maxInclusiveBodyWeight") {
             response.forEach {
-                it.bodyWeight shouldBeLessThanOrEqual(maxInclusiveBodyWeight)
+                it.bodyWeight?.shouldBeLessThanOrEqual((maxInclusiveBodyWeight))
             }
         }
         should("response should be sorted by total") {
             response.forEachIndexed { index, athleteResultDto ->
                 if (index < response.size - 1) {
-                    athleteResultDto.total shouldBeGreaterThan response[index + 1].total!!
+                    athleteResultDto.total?.shouldBeGreaterThan(response[index + 1].total!!)
                 }
             }
         }

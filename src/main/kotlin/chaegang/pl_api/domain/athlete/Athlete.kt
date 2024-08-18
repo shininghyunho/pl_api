@@ -12,6 +12,6 @@ class Athlete(
     val sex : String? = null,
 ) {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
 }

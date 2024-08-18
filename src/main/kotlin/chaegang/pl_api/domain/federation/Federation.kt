@@ -11,6 +11,6 @@ class Federation (
     val parentFederation: Federation? = null
 ){
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
 }

@@ -1,3 +1,8 @@
 spring:
   profiles:
-    include: local-db
+    active: local
+    group:
+      local :
+        - local-db
+      dev :
+        - dev-db

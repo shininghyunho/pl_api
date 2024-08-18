@@ -8,23 +8,23 @@ class TopAthletesResponse(
             return TopAthletesResponse(
                 topAthletes = dtoList.map {
                     TopAthlete(
-                        name = it.name,
-                        total = it.total,
-                        squat = it.squat,
-                        bench = it.bench,
-                        deadlift = it.deadlift,
-                        sex = it.sex,
-                        bodyWeight = it.bodyWeight,
-                        age = it.age,
-                        dots = it.dots,
-                        wilks = it.wilks,
-                        glossbrenner = it.glossbrenner,
-                        goodlift = it.goodlift,
-                        tested = it.tested,
-                        sanctioned = it.sanctioned,
+                        name = it.name ?: "",
+                        total = it.total ?: 0f,
+                        squat = it.squat ?: 0f,
+                        bench = it.bench ?: 0f,
+                        deadlift = it.deadlift ?: 0f,
+                        sex = it.sex ?: "",
+                        bodyWeight = it.bodyWeight ?: 0.0,
+                        age = it.age ?: 0f,
+                        dots = it.dots ?: 0.0,
+                        wilks = it.wilks ?: 0.0,
+                        glossbrenner = it.glossbrenner ?: 0.0,
+                        goodlift = it.goodlift ?: 0.0,
+                        tested = it.tested ?: false,
+                        sanctioned = it.sanctioned ?: false,
                         date = it.date.toString(),
-                        federationName = it.federationName,
-                        parentFederationName = it.parentFederationName
+                        federationName = it.federationName ?: "",
+                        parentFederationName = it.parentFederationName ?: "",
                     )
                 }
             )

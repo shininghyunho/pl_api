@@ -47,6 +47,6 @@ class AthleteGameRecord(
     val game: Game,
 ) {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
 }
