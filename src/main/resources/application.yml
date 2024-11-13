@@ -4,5 +4,6 @@ spring:
     group:
       local :
         - local-db
+        - redis
       dev :
         - dev-db
