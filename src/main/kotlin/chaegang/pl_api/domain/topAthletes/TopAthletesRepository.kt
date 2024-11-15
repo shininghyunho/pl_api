@@ -6,10 +6,16 @@ import chaegang.pl_api.domain.topAthletes.dto.TopAthleteQueryResult
 import jakarta.persistence.EntityManager
 import jakarta.persistence.PersistenceContext
 import jakarta.persistence.TypedQuery
+import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Repository
+import java.util.concurrent.TimeUnit
+
+const val MAX_RESULT_LIMIT = 10
 
 @Repository
-class TopAthletesRepository {
+class TopAthletesRepository(
+    private val redisTemplate: RedisTemplate<String, Any>
+) {
     @PersistenceContext
     private lateinit var entityManager: EntityManager
 
@@ -18,12 +24,9 @@ class TopAthletesRepository {
         maxInclusiveBodyWeight: Double,
         equipmentType: EquipmentType,
         sexType: SexType,
-        limit: Int = 10
     ): List<TopAthleteQueryResult> {
         val equipment = equipmentType.toOriginalName()
         val sex = sexType.toOriginalName()
-        // validate parameters
-        if(limit<1) return emptyList()
 
         val query:TypedQuery<TopAthleteQueryResult> = entityManager.createQuery(
             """
@@ -62,7 +65,32 @@ class TopAthletesRepository {
         query.setParameter("maxInclusiveBodyWeight", maxInclusiveBodyWeight)
         query.setParameter("equipment", equipment)
         query.setParameter("sex",sex)
-        query.maxResults = limit
-        return query.resultList
+        query.maxResults = MAX_RESULT_LIMIT
+
+        // get cache if exists
+        val cacheKey = getCacheKey(minExclusiveBodyWeight,
+            maxInclusiveBodyWeight,
+            equipmentType,
+            sexType)
+        redisTemplate.opsForValue().get(cacheKey)?.let {
+            return it as List<TopAthleteQueryResult>
+        }
+
+
+        // set cache if not exists
+        val result = query.resultList
+        redisTemplate.opsForValue().set(cacheKey, result)
+        // expire in 7 days
+        redisTemplate.expire(cacheKey,7,TimeUnit.DAYS)
+        return result
+    }
+
+    private fun getCacheKey(
+        minExclusiveBodyWeight: Double,
+        maxInclusiveBodyWeight: Double,
+        equipmentType: EquipmentType,
+        sexType: SexType,
+    ): String {
+        return "topAthletes:${minExclusiveBodyWeight}:${maxInclusiveBodyWeight}:${equipmentType}:${sexType}"
     }
 }

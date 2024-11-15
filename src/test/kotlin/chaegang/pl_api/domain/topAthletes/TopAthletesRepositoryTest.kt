@@ -166,19 +166,4 @@ class TopAthletesRepositoryTest (
             response.isEmpty() shouldBe true
         }
     }
-    context("findTopAthletes limit < 1") {
-        saveEntity()
-        val minExclusiveBodyWeight = 66.0
-        val maxInclusiveBodyWeight = 74.0
-        val response : List<TopAthleteQueryResult> = topAthletesRepository.findTopAthletes(
-            minExclusiveBodyWeight = minExclusiveBodyWeight,
-            maxInclusiveBodyWeight = maxInclusiveBodyWeight,
-            equipmentType = EquipmentType.RAW,
-            sexType = SexType.M,
-            limit = -10
-        )
-        should("response should be empty") {
-            response.isEmpty() shouldBe true
-        }
-    }
 })

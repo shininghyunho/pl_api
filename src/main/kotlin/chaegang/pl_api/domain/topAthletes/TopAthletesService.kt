@@ -11,13 +11,11 @@ class TopAthletesService(
 ) {
     @Transactional(readOnly = true)
     fun findTopAthletes(request: TopAthletesRequest): TopAthletesResponse {
-        // TODO : Cache 적용
         val athleteResults =  topAthletesRepository.findTopAthletes(
             minExclusiveBodyWeight = request.minExclusiveBodyWeight,
             maxInclusiveBodyWeight = request.maxInclusiveBodyWeight,
             equipmentType = request.equipmentType,
             sexType = request.sexType,
-            limit = request.limit
         )
         return TopAthletesResponse.fromAthleteResultDtoList(athleteResults)
     }

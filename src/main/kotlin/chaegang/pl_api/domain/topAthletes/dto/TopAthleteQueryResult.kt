@@ -1,8 +1,9 @@
 package chaegang.pl_api.domain.topAthletes.dto
 
+import java.io.Serializable
 import java.time.LocalDate
 
-class TopAthleteQueryResult (
+class TopAthleteQueryResult(
     val name: String?,
     val total: Float?,
     val squat: Float?,
@@ -20,7 +21,7 @@ class TopAthleteQueryResult (
     val date: LocalDate?,
     val federationName: String?,
     val parentFederationName: String?,
-) {
+) : Serializable {
     override fun toString(): String {
         return "AthleteResultDto(name='$name', total=$total, squat=$squat, bench=$bench, deadlift=$deadlift, sex=$sex, bodyWeight=$bodyWeight, age=$age, dots=$dots, wilks=$wilks, glossbrenner=$glossbrenner, goodlift=$goodlift, tested=$tested, sanctioned=$sanctioned, date=$date, federationName=$federationName, parentFederationName=$parentFederationName)"
     }

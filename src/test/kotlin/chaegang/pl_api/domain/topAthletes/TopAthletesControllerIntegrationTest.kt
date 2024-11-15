@@ -50,8 +50,7 @@ class TopAthletesControllerIntegrationTest(
                             "minExclusiveBodyWeight=${request.minExclusiveBodyWeight}&" +
                             "maxInclusiveBodyWeight=${request.maxInclusiveBodyWeight}&" +
                             "equipment=${request.equipmentType.name}&" +
-                            "sex=${request.sexType.name}&" +
-                            "limit=${request.limit}"
+                            "sex=${request.sexType.name}&"
                     )
                         .contentType(MediaType.APPLICATION_JSON)
                     )

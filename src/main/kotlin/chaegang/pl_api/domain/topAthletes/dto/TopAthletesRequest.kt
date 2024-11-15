@@ -8,7 +8,6 @@ class TopAthletesRequest(
     val maxInclusiveBodyWeight: Double,
     equipment:String,
     sex:String,
-    val limit: Int = 10
 ) {
     val equipmentType: EquipmentType = EquipmentType.valueOf(equipment)
     val sexType: SexType = SexType.valueOf(sex)
