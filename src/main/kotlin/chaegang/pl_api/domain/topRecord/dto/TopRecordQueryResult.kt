@@ -1,8 +1,8 @@
-package chaegang.pl_api.domain.topAthletes.dto
+package chaegang.pl_api.domain.topRecord.dto
 
 import java.time.LocalDate
 
-class TopAthleteQueryResult (
+class TopRecordQueryResult (
     val name: String?,
     val total: Float?,
     val squat: Float?,

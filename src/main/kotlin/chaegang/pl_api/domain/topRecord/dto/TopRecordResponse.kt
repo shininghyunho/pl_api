@@ -1,13 +1,13 @@
-package chaegang.pl_api.domain.topAthletes.dto
+package chaegang.pl_api.domain.topRecord.dto
 
-class TopAthletesResponse(
-    val topAthletes: List<TopAthlete>
+class TopRecordResponse(
+    val topRecords: List<TopRecord>
 ) {
     companion object {
-        fun fromAthleteResultDtoList(dtoList : List<TopAthleteQueryResult>): TopAthletesResponse {
-            return TopAthletesResponse(
-                topAthletes = dtoList.map {
-                    TopAthlete(
+        fun fromTopRecordsResultDtoList(dtoList : List<TopRecordQueryResult>): TopRecordResponse {
+            return TopRecordResponse(
+                topRecords = dtoList.map {
+                    TopRecord(
                         name = it.name ?: "",
                         total = it.total ?: 0f,
                         squat = it.squat ?: 0f,
@@ -30,7 +30,7 @@ class TopAthletesResponse(
             )
         }
     }
-    class TopAthlete(
+    class TopRecord(
         val name: String,
         val total: Float,
         val squat: Float,

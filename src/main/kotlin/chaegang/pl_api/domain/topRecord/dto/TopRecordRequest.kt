@@ -1,9 +1,9 @@
-package chaegang.pl_api.domain.topAthletes.dto
+package chaegang.pl_api.domain.topRecord.dto
 
 import chaegang.pl_api.domain.athlete.SexType
 import chaegang.pl_api.domain.athleteGameRecord.EquipmentType
 
-class TopAthletesRequest(
+class TopRecordRequest(
     val minExclusiveBodyWeight: Double,
     val maxInclusiveBodyWeight: Double,
     equipment:String,

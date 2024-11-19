@@ -1,4 +1,4 @@
-package chaegang.pl_api.domain.topAthletes
+package chaegang.pl_api.domain.topRecord
 
 import chaegang.pl_api.domain.athlete.Athlete
 import chaegang.pl_api.domain.athlete.AthleteRepository
@@ -8,8 +8,8 @@ import chaegang.pl_api.domain.federation.Federation
 import chaegang.pl_api.domain.federation.FederationRepository
 import chaegang.pl_api.domain.game.Game
 import chaegang.pl_api.domain.game.GameRepository
-import chaegang.pl_api.domain.topAthletes.dto.TopAthletesRequest
-import chaegang.pl_api.domain.topAthletes.dto.TopAthletesResponse
+import chaegang.pl_api.domain.topRecord.dto.TopRecordRequest
+import chaegang.pl_api.domain.topRecord.dto.TopRecordResponse
 import chaegang.pl_api.support.IntegrationTest
 import com.google.gson.Gson
 import io.kotest.core.spec.style.BehaviorSpec
@@ -27,7 +27,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import java.time.LocalDate
 
 @IntegrationTest
-class TopAthletesControllerIntegrationTest(
+class TopRecordControllerIntegrationTest(
     @Autowired val mockMvc: MockMvc,
     @Autowired val athleteRepository: AthleteRepository,
     @Autowired val federationRepository: FederationRepository,
@@ -37,16 +37,16 @@ class TopAthletesControllerIntegrationTest(
 ) : BehaviorSpec() {
     val gson = Gson()
         init {
-            Given("Get /top-athletes") {
+            Given("Get /top-records") {
                 if(activeProfile.equals("local")) saveEntity()
-                val request = TopAthletesRequest(
+                val request = TopRecordRequest(
                     minExclusiveBodyWeight = 66.0,
                     maxInclusiveBodyWeight = 74.0,
                     equipment = "RAW",
                     sex = "M",
                 )
                 When("Requesting with valid parameters") {
-                    val result = mockMvc.perform(MockMvcRequestBuilders.get("/top-athletes?" +
+                    val result = mockMvc.perform(MockMvcRequestBuilders.get("/top-records?" +
                             "minExclusiveBodyWeight=${request.minExclusiveBodyWeight}&" +
                             "maxInclusiveBodyWeight=${request.maxInclusiveBodyWeight}&" +
                             "equipment=${request.equipmentType.name}&" +
@@ -57,22 +57,22 @@ class TopAthletesControllerIntegrationTest(
                     )
                         .andDo(MockMvcResultHandlers.print())
                         .andReturn().response.contentAsString
-                    val topAthletesResponse = convertJsonToTopAthletesResponse(result)
-                    val topAthletes = topAthletesResponse.topAthletes
+                    val topRecordsResponse = convertJsonToTopRecordsResponse(result)
+                    val topRecords = topRecordsResponse.topRecords
                     Then("Return 200 OK") {
                         result shouldContain HttpStatus.OK.value().toString()
                     }
-                    Then("top athletes should be in range") {
-                        topAthletes.forEach { topAthlete ->
-                            topAthlete.bodyWeight shouldBeLessThanOrEqual(request.maxInclusiveBodyWeight)
-                            topAthlete.bodyWeight shouldBeGreaterThan(request.minExclusiveBodyWeight)
+                    Then("top records should be in range") {
+                        topRecords.forEach { topRecord ->
+                            topRecord.bodyWeight shouldBeLessThanOrEqual(request.maxInclusiveBodyWeight)
+                            topRecord.bodyWeight shouldBeGreaterThan(request.minExclusiveBodyWeight)
                         }
                     }
-                    Then("top athletes should be sorted by total") {
+                    Then("top records should be sorted by total") {
                         var prevTotal = Float.MAX_VALUE
-                        topAthletes.forEach { topAthlete ->
-                            topAthlete.total shouldBeLessThanOrEqual(prevTotal)
-                            prevTotal = topAthlete.total
+                        topRecords.forEach { topRecord ->
+                            topRecord.total shouldBeLessThanOrEqual(prevTotal)
+                            prevTotal = topRecord.total
                         }
                     }
             }
@@ -170,7 +170,7 @@ class TopAthletesControllerIntegrationTest(
             equipment = "Raw"
         ))
     }
-    fun convertJsonToTopAthletesResponse(jsonString: String): TopAthletesResponse {
-        return gson.fromJson(jsonString,TopAthletesResponse::class.java)
+    fun convertJsonToTopRecordsResponse(jsonString: String): TopRecordResponse {
+        return gson.fromJson(jsonString,TopRecordResponse::class.java)
     }
 }
