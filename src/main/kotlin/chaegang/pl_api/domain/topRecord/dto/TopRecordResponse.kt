@@ -1,10 +1,12 @@
 package chaegang.pl_api.domain.topRecord.dto
 
+import chaegang.pl_api.domain.topRecord.TopRecord
+
 class TopRecordResponse(
     val topRecords: List<TopRecord>
 ) {
     companion object {
-        fun fromTopRecordsResultDtoList(dtoList : List<TopRecordQueryResult>): TopRecordResponse {
+        fun fromTopRecordResultsDtoList(dtoList : List<TopRecordQueryResult>): TopRecordResponse {
             return TopRecordResponse(
                 topRecords = dtoList.map {
                     TopRecord(
@@ -27,6 +29,30 @@ class TopRecordResponse(
                         parentFederationName = it.parentFederationName ?: "",
                     )
                 }
+            )
+        }
+        fun fromTopRecordList(topRecordList: List<chaegang.pl_api.domain.topRecord.TopRecord>): TopRecordResponse {
+            return TopRecordResponse(
+                topRecords = topRecordList.map {
+                    TopRecord(
+                        name = it.name,
+                        total = it.total ?: 0f,
+                        squat = it.squat ?: 0f,
+                        bench = it.bench ?: 0f,
+                        deadlift = it.deadlift ?: 0f,
+                        sex = it.sex ?: "",
+                        bodyWeight = it.bodyWeight ?: 0.0,
+                        age = it.age ?: 0f,
+                        dots = it.dots ?: 0.0,
+                        wilks = it.wilks ?: 0.0,
+                        glossbrenner = it.glossbrenner ?: 0.0,
+                        goodlift = it.goodlift ?: 0.0,
+                        tested = it.tested ?: false,
+                        sanctioned = it.sanctioned ?: false,
+                        date = it.date.toString(),
+                        federationName = it.federationName ?: "",
+                        parentFederationName = it.parentFederationName ?: "",
+                    )}
             )
         }
     }

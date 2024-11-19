@@ -1,5 +1,6 @@
 package chaegang.pl_api.domain.topRecord
 
+import chaegang.pl_api.domain.topRecord.dto.TopRecordQueryResult
 import chaegang.pl_api.domain.topRecord.dto.TopRecordRequest
 import chaegang.pl_api.domain.topRecord.dto.TopRecordResponse
 import org.springframework.stereotype.Service
@@ -10,15 +11,41 @@ class TopRecordService(
     private val topRecordRepository: TopRecordRepository
 ) {
     @Transactional(readOnly = true)
-    fun findTopRecords(request: TopRecordRequest): TopRecordResponse {
-        // TODO : Cache 적용
-        val athleteResults =  topRecordRepository.findTopRecords(
+    fun findTopRecord(request: TopRecordRequest): TopRecordResponse {
+        val topRecordList= topRecordRepository.findTopRecords(
             minExclusiveBodyWeight = request.minExclusiveBodyWeight,
             maxInclusiveBodyWeight = request.maxInclusiveBodyWeight,
-            equipmentType = request.equipmentType,
-            sexType = request.sexType,
+            equipmentType = request.equipmentType.toString(),
+            sexType = request.sexType.toString(),
             limit = request.limit
         )
-        return TopRecordResponse.fromTopRecordsResultDtoList(athleteResults)
+        return TopRecordResponse.fromTopRecordList(topRecordList)
+    }
+
+    @Transactional
+    fun saveTopRecord(queryResult: TopRecordQueryResult) {
+        // already exists name then return
+        if(queryResult.name == null
+            || topRecordRepository.findById(queryResult.name).isPresent) return
+        // save
+        topRecordRepository.save(TopRecord(
+            name = queryResult.name,
+            total = queryResult.total,
+            squat = queryResult.squat,
+            bench = queryResult.bench,
+            deadlift = queryResult.deadlift,
+            sex = queryResult.sex,
+            bodyWeight = queryResult.bodyWeight,
+            age = queryResult.age,
+            dots = queryResult.dots,
+            wilks = queryResult.wilks,
+            glossbrenner = queryResult.glossbrenner,
+            goodlift = queryResult.goodlift,
+            tested = queryResult.tested,
+            sanctioned = queryResult.sanctioned,
+            date = queryResult.date.toString(),
+            federationName = queryResult.federationName,
+            parentFederationName = queryResult.parentFederationName
+        ))
     }
 }
