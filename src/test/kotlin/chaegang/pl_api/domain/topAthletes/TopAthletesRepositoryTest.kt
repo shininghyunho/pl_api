@@ -54,6 +54,17 @@ class TopAthletesRepositoryTest (
             meetName = "Test Meet",
             federation = fpr
         ))
+        val testGame2 = gameRepository.save(Game(
+            event = "Test Event2",
+            country = "Korea",
+            state = "Seoul",
+            date = LocalDate.now(),
+            meetCountry = "Korea",
+            meetState = "Seoul",
+            meetTown = "Seoul",
+            meetName = "Test Meet2",
+            federation = fpr
+        ))
         val austin = athleteRepository.save(Athlete(
             name = "Austin",
             sex = "M"
@@ -75,6 +86,23 @@ class TopAthletesRepositoryTest (
             sanctioned = true,
             equipment = "Raw"
         ))
+        val austinGameRecord2 = athleteGameRecordRepository.save(AthleteGameRecord(
+            athlete = austin,
+            game = testGame2,
+            age = 30f,
+            bodyWeight = 66.0,
+            bestSquat = 310f,
+            bestBench = 210f,
+            bestDeadlift = 410f,
+            total = 930f,
+            dots = 123.0,
+            wilks = 456.0,
+            glossbrenner = 789.0,
+            goodlift = 1000.0,
+            tested = true,
+            sanctioned = true,
+            equipment = "Raw"
+        ))
         val taylor = athleteRepository.save(Athlete(
             name = "Taylor",
             sex = "M"
@@ -88,6 +116,23 @@ class TopAthletesRepositoryTest (
             bestBench = 200f,
             bestDeadlift = 300f,
             total = 800f,
+            dots = 123.0,
+            wilks = 456.0,
+            glossbrenner = 789.0,
+            goodlift = 900.0,
+            tested = true,
+            sanctioned = true,
+            equipment = "Raw"
+        ))
+        val taylorGameRecord2 = athleteGameRecordRepository.save(AthleteGameRecord(
+            athlete = taylor,
+            game = testGame2,
+            age = 30f,
+            bodyWeight = 68.0,
+            bestSquat = 310f,
+            bestBench = 210f,
+            bestDeadlift = 310f,
+            total = 830f,
             dots = 123.0,
             wilks = 456.0,
             glossbrenner = 789.0,
@@ -150,6 +195,11 @@ class TopAthletesRepositoryTest (
         }
         should("default response count <= 10") {
             response.size shouldBeLessThanOrEqual(10)
+        }
+        // have distinct name
+        should("response should have distinct name") {
+            val nameSet = response.map { it.name }.toSet()
+            nameSet.size shouldBe response.size
         }
     }
     context("findTopAthletes minExclusiveBodyWeight > maxInclusiveBodyWeight") {

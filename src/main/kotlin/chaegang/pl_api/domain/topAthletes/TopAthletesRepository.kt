@@ -54,6 +54,11 @@ class TopAthletesRepository {
             WHERE r.bodyWeight > :minInclusiveBodyWeight AND r.bodyWeight <= :maxInclusiveBodyWeight
             AND r.equipment = :equipment
             AND a.sex = :sex
+            AND r.total =(
+                SELECT MAX(r2.total)
+                FROM AthleteGameRecord r2
+                WHERE r2.athlete.id = a.id
+            )
             ORDER BY r.total DESC
         """, TopAthleteQueryResult::class.java)
 
