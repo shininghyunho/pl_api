@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class TopRecordController(
-    private val athleteToTopRecordService: AthleteToTopRecordService
+    private val topRecordService: TopRecordService
 ) {
     @GetMapping("/top-records")
     fun findTopRecords(request: TopRecordRequest): TopRecordResponse {
-        return athleteToTopRecordService.findTopRecords(request)
+        return topRecordService.findTopRecord(request)
     }
 }

@@ -4,6 +4,7 @@ import java.time.LocalDate
 
 class TopRecordQueryResult (
     val name: String?,
+    val equipment: String?,
     val total: Float?,
     val squat: Float?,
     val bench: Float?,

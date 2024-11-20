@@ -1,13 +1,5 @@
 package chaegang.pl_api.domain.topRecord
 
-import chaegang.pl_api.domain.athlete.Athlete
-import chaegang.pl_api.domain.athlete.AthleteRepository
-import chaegang.pl_api.domain.athleteGameRecord.AthleteGameRecord
-import chaegang.pl_api.domain.athleteGameRecord.AthleteGameRecordRepository
-import chaegang.pl_api.domain.federation.Federation
-import chaegang.pl_api.domain.federation.FederationRepository
-import chaegang.pl_api.domain.game.Game
-import chaegang.pl_api.domain.game.GameRepository
 import chaegang.pl_api.domain.topRecord.dto.TopRecordRequest
 import chaegang.pl_api.domain.topRecord.dto.TopRecordResponse
 import chaegang.pl_api.support.IntegrationTest
@@ -24,15 +16,11 @@ import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
-import java.time.LocalDate
 
 @IntegrationTest
 class TopRecordControllerIntegrationTest(
     @Autowired val mockMvc: MockMvc,
-    @Autowired val athleteRepository: AthleteRepository,
-    @Autowired val federationRepository: FederationRepository,
-    @Autowired val gameRepository: GameRepository,
-    @Autowired val athleteGameRecordRepository: AthleteGameRecordRepository,
+    @Autowired val topRecordRepository: TopRecordRepository,
     @Value("\${spring.profiles.active}") val activeProfile: String,
 ) : BehaviorSpec() {
     val gson = Gson()
@@ -40,8 +28,8 @@ class TopRecordControllerIntegrationTest(
             Given("Get /top-records") {
                 if(activeProfile.equals("local")) saveEntity()
                 val request = TopRecordRequest(
-                    minExclusiveBodyWeight = 66.0,
-                    maxInclusiveBodyWeight = 74.0,
+                    minExclusiveBodyWeight = 80.0,
+                    maxInclusiveBodyWeight = 90.0,
                     equipment = "RAW",
                     sex = "M",
                 )
@@ -79,95 +67,73 @@ class TopRecordControllerIntegrationTest(
         }
     }
     fun saveEntity() {
-        val ipf = federationRepository.save(
-            Federation(
-            name = "IPF"
-        ))
-        val fpr = federationRepository.save(
-            Federation(
-            name = "FPR",
-            parentFederation = ipf
-        ))
-        val testGame = gameRepository.save(
-            Game(
-            event = "Test Event",
-            country = "Korea",
-            state = "Seoul",
-            date = LocalDate.now(),
-            meetCountry = "Korea",
-            meetState = "Seoul",
-            meetTown = "Seoul",
-            meetName = "Test Meet",
-            federation = fpr
-        ))
-        val austin = athleteRepository.save(
-            Athlete(
-            name = "Austin",
-            sex = "M"
-        ))
-        val austinGameRecord = athleteGameRecordRepository.save(
-            AthleteGameRecord(
-            athlete = austin,
-            game = testGame,
-            age = 30f,
-            bodyWeight = 66.0,
-            bestSquat = 300f,
-            bestBench = 200f,
-            bestDeadlift = 400f,
-            total = 900f,
-            dots = 123.0,
-            wilks = 456.0,
-            glossbrenner = 789.0,
-            goodlift = 1000.0,
-            tested = true,
-            sanctioned = true,
-            equipment = "Raw"
-        ))
-        val taylor = athleteRepository.save(
-            Athlete(
-            name = "Taylor",
-            sex = "M"
-        ))
-        val taylorGameRecord = athleteGameRecordRepository.save(
-            AthleteGameRecord(
-            athlete = taylor,
-            game = testGame,
-            age = 30f,
-            bodyWeight = 68.0,
-            bestSquat = 300f,
-            bestBench = 200f,
-            bestDeadlift = 300f,
+        // Charlie
+        topRecordRepository.save(TopRecord(
+            name = "Charlie",
+            equipment = "Raw",
             total = 800f,
-            dots = 123.0,
-            wilks = 456.0,
-            glossbrenner = 789.0,
-            goodlift = 900.0,
-            tested = true,
-            sanctioned = true,
-            equipment = "Raw"
-        ))
-        val heavyMan = athleteRepository.save(
-            Athlete(
-            name ="heavyMan",
-            sex = "M"
-        ))
-        val heavyManGameRecord = athleteGameRecordRepository.save(
-            AthleteGameRecord(
-            athlete = heavyMan,
-            game = testGame,
+            squat = 300f,
+            bench = 200f,
+            deadlift = 300f,
+            sex = "M",
+            bodyWeight = 80.0,
             age = 30f,
-            bodyWeight = 74.0,
-            bestSquat = 300f,
-            bestBench = 400f,
-            bestDeadlift = 300f,
-            total = 1000f,
-            dots = 123.0,
-            wilks = 456.0,
-            glossbrenner = 789.0,
-            goodlift = 900.0,
+            dots = 500.0,
+            wilks = 400.0,
+            glossbrenner = 300.0,
+            goodlift = 800.0,
             tested = true,
             sanctioned = true,
-            equipment = "Raw"
+            date = "2021-01-01",
+            federationName = "IPF",
+        ))
+        // Austin
+        topRecordRepository.save(TopRecord(
+            name = "Austin",
+            equipment = "Raw",
+            total = 900f,
+            squat = 400f,
+            bench = 300f,
+            deadlift = 200f,
+            sex = "M",
+            bodyWeight = 90.0,
+            age = 40f,
+            dots = 600.0,
+            wilks = 500.0,
+            glossbrenner = 400.0,
+            goodlift = 900.0
+        ))
+        // Bob
+        topRecordRepository.save(TopRecord(
+            name = "Bob",
+            equipment = "Raw",
+            total = 700f,
+            squat = 200f,
+            bench = 100f,
+            deadlift = 400f,
+            sex = "M",
+            bodyWeight = 70.0,
+            age = 20f,
+            dots = 400.0,
+            wilks = 300.0,
+        ))
+        // John
+        topRecordRepository.save(TopRecord(
+            name = "John",
+            equipment = "Raw",
+            total = 600f,
+            squat = 100f,
+            bench = 300f,
+            deadlift = 200f,
+            sex = "M",
+            bodyWeight = 60.0,
+        ))
+        // Taylor
+        topRecordRepository.save(TopRecord(
+            name = "Taylor",
+            equipment = "Single-ply",
+            total = 200f,
+            bench = 200f
         ))
     }
     fun convertJsonToTopRecordsResponse(jsonString: String): TopRecordResponse {

@@ -15,8 +15,8 @@ class TopRecordService(
         val topRecordList= topRecordRepository.findTopRecords(
             minExclusiveBodyWeight = request.minExclusiveBodyWeight,
             maxInclusiveBodyWeight = request.maxInclusiveBodyWeight,
-            equipmentType = request.equipmentType.toString(),
-            sexType = request.sexType.toString(),
+            equipmentType = request.equipmentType.toOriginalName(),
+            sexType = request.sexType.toOriginalName(),
             limit = request.limit
         )
         return TopRecordResponse.fromTopRecordList(topRecordList)

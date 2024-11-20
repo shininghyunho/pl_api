@@ -7,9 +7,9 @@ import org.springframework.data.repository.query.Param
 interface TopRecordRepository : JpaRepository<TopRecord, String> {
     @Query(
         value = """
-            SELECT * FROM TopRecord
-            WHERE bodyWeight > :minExclusiveBodyWeight
-            AND bodyWeight <= :maxInclusiveBodyWeight
+            SELECT * FROM top_record
+            WHERE body_weight > :minExclusiveBodyWeight
+            AND body_weight <= :maxInclusiveBodyWeight
             AND equipment = :equipmentType
             AND sex = :sexType
             ORDER BY total DESC
@@ -21,6 +21,6 @@ interface TopRecordRepository : JpaRepository<TopRecord, String> {
         @Param("maxInclusiveBodyWeight") maxInclusiveBodyWeight: Double,
         @Param("equipmentType") equipmentType: String,
         @Param("sexType") sexType: String,
-        @Param("limit") limit: Int
+        @Param("limit") limit: Int? = 10
     ): List<TopRecord>
 }

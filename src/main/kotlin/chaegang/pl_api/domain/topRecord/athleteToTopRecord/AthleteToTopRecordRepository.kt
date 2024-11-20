@@ -29,6 +29,7 @@ class AthleteToTopRecordRepository {
             """
             SELECT new chaegang.pl_api.domain.topRecord.dto.TopRecordQueryResult(
                 a.name,
+                r.equipment,
                 r.total,
                 r.bestSquat,
                 r.bestBench,
