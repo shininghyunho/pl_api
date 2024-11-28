@@ -1,4 +1,4 @@
-package chaegang.pl_api.domain.topRecord.athleteToTopRecord
+package chaegang.pl_api.domain.topRecord.originalRecord
 
 import chaegang.pl_api.domain.topRecord.dto.TopRecordRequest
 import chaegang.pl_api.domain.topRecord.dto.TopRecordResponse
@@ -6,13 +6,12 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class AthleteToTopRecordService(
-    private val athleteToTopRecordRepository: AthleteToTopRecordRepository
+class OriginalRecordService(
+    private val originalRecordRepository: OriginalRecordRepository
 ) {
     @Transactional(readOnly = true)
     fun findTopRecords(request: TopRecordRequest): TopRecordResponse {
-        // TODO : Cache 적용
-        val topRecordResults =  athleteToTopRecordRepository.findTopRecords(
+        val topRecordResults =  originalRecordRepository.findTopRecords(
             minExclusiveBodyWeight = request.minExclusiveBodyWeight,
             maxInclusiveBodyWeight = request.maxInclusiveBodyWeight,
             equipmentType = request.equipmentType,

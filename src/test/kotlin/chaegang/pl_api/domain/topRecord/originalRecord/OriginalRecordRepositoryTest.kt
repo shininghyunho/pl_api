@@ -1,4 +1,4 @@
-package chaegang.pl_api.domain.topRecord.athleteToTopRecord
+package chaegang.pl_api.domain.topRecord.originalRecord
 
 import chaegang.pl_api.domain.athlete.Athlete
 import chaegang.pl_api.domain.athlete.AthleteRepository
@@ -24,9 +24,9 @@ import org.springframework.context.annotation.Import
 import java.time.LocalDate
 
 @DataJpaTest
-@Import(AthleteToTopRecordRepository::class)
-class AthleteToTopRecordRepositoryTest (
-    @Autowired val athleteToTopRecordRepository: AthleteToTopRecordRepository,
+@Import(OriginalRecordRepository::class)
+class OriginalRecordRepositoryTest (
+    @Autowired val originalRecordRepository: OriginalRecordRepository,
     @Autowired val athleteRepository: AthleteRepository,
     @Autowired val federationRepository: FederationRepository,
     @Autowired val gameRepository: GameRepository,
@@ -167,7 +167,7 @@ class AthleteToTopRecordRepositoryTest (
         saveEntity()
         val minExclusiveBodyWeight = 66.0
         val maxInclusiveBodyWeight = 74.0
-        val response : List<TopRecordQueryResult> = athleteToTopRecordRepository.findTopRecords(
+        val response : List<TopRecordQueryResult> = originalRecordRepository.findTopRecords(
             minExclusiveBodyWeight = minExclusiveBodyWeight,
             maxInclusiveBodyWeight = maxInclusiveBodyWeight,
             equipmentType = EquipmentType.RAW,
@@ -206,7 +206,7 @@ class AthleteToTopRecordRepositoryTest (
         saveEntity()
         val minExclusiveBodyWeight = 74.0
         val maxInclusiveBodyWeight = 66.0
-        val response : List<TopRecordQueryResult> = athleteToTopRecordRepository.findTopRecords(
+        val response : List<TopRecordQueryResult> = originalRecordRepository.findTopRecords(
             minExclusiveBodyWeight = minExclusiveBodyWeight,
             maxInclusiveBodyWeight = maxInclusiveBodyWeight,
             equipmentType = EquipmentType.RAW,
@@ -220,7 +220,7 @@ class AthleteToTopRecordRepositoryTest (
         saveEntity()
         val minExclusiveBodyWeight = 66.0
         val maxInclusiveBodyWeight = 74.0
-        val response : List<TopRecordQueryResult> = athleteToTopRecordRepository.findTopRecords(
+        val response : List<TopRecordQueryResult> = originalRecordRepository.findTopRecords(
             minExclusiveBodyWeight = minExclusiveBodyWeight,
             maxInclusiveBodyWeight = maxInclusiveBodyWeight,
             equipmentType = EquipmentType.RAW,

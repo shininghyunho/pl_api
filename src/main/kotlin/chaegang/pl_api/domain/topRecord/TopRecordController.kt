@@ -1,6 +1,5 @@
 package chaegang.pl_api.domain.topRecord
 
-import chaegang.pl_api.domain.topRecord.athleteToTopRecord.AthleteToTopRecordService
 import chaegang.pl_api.domain.topRecord.dto.TopRecordRequest
 import chaegang.pl_api.domain.topRecord.dto.TopRecordResponse
 import org.springframework.web.bind.annotation.GetMapping

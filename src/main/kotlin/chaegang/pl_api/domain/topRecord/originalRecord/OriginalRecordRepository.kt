@@ -1,4 +1,4 @@
-package chaegang.pl_api.domain.topRecord.athleteToTopRecord
+package chaegang.pl_api.domain.topRecord.originalRecord
 
 import chaegang.pl_api.domain.athlete.SexType
 import chaegang.pl_api.domain.athleteGameRecord.EquipmentType
@@ -9,7 +9,7 @@ import jakarta.persistence.TypedQuery
 import org.springframework.stereotype.Repository
 
 @Repository
-class AthleteToTopRecordRepository {
+class OriginalRecordRepository {
     @PersistenceContext
     private lateinit var entityManager: EntityManager
 
