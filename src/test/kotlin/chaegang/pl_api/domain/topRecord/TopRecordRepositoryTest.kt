@@ -8,6 +8,7 @@ import io.kotest.extensions.spring.SpringTestLifecycleMode
 import io.kotest.matchers.comparables.shouldBeGreaterThan
 import io.kotest.matchers.doubles.shouldBeGreaterThan
 import io.kotest.matchers.doubles.shouldBeLessThanOrEqual
+import io.kotest.matchers.shouldBe
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 
@@ -119,5 +120,11 @@ class TopRecordRepositoryTest (
             }
         }
     }
-
+    context("truncate table") {
+        saveEntity()
+        topRecordRepository.truncateTable()
+        should("table should be empty") {
+            topRecordRepository.findAll().isEmpty() shouldBe true
+        }
+    }
 })

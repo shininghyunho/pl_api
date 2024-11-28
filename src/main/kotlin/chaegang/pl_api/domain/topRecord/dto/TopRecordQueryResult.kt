@@ -1,5 +1,6 @@
 package chaegang.pl_api.domain.topRecord.dto
 
+import chaegang.pl_api.domain.topRecord.TopRecord
 import java.time.LocalDate
 
 class TopRecordQueryResult (
@@ -24,5 +25,29 @@ class TopRecordQueryResult (
 ) {
     override fun toString(): String {
         return "AthleteResultDto(name='$name', total=$total, squat=$squat, bench=$bench, deadlift=$deadlift, sex=$sex, bodyWeight=$bodyWeight, age=$age, dots=$dots, wilks=$wilks, glossbrenner=$glossbrenner, goodlift=$goodlift, tested=$tested, sanctioned=$sanctioned, date=$date, federationName=$federationName, parentFederationName=$parentFederationName)"
+    }
+
+    fun toTopRecord(): TopRecord? {
+        if(name == null) return null
+        return TopRecord(
+                name = name,
+                equipment = equipment,
+                total = total,
+                squat = squat,
+                bench = bench,
+                deadlift = deadlift,
+                sex = sex,
+                bodyWeight = bodyWeight,
+                age = age,
+                dots = dots,
+                wilks = wilks,
+                glossbrenner = glossbrenner,
+                goodlift = goodlift,
+                tested = tested,
+                sanctioned = sanctioned,
+                date = date.toString(),
+                federationName = federationName,
+                parentFederationName = parentFederationName
+            )
     }
 }

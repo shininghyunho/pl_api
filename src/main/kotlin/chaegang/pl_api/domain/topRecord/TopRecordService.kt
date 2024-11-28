@@ -48,4 +48,9 @@ class TopRecordService(
             parentFederationName = queryResult.parentFederationName
         ))
     }
+
+    @Transactional
+    fun deleteAllTopRecord() {
+        topRecordRepository.deleteAll()
+    }
 }
