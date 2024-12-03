@@ -1,8 +1,10 @@
 spring:
   profiles:
-    active: local
+    active: test
     group:
       local :
         - local-db
+        - scheduler
       dev :
         - dev-db
+        - scheduler
