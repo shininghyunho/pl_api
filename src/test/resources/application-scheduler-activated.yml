@@ -1,5 +1,0 @@
-spring.config.activate.on-profile: scheduler-activated
-scheduler:
-  enabled: true
-  topRecordUpdate:
-    cron : "0/1 0 0 ? * *"

@@ -1,6 +1,6 @@
 package chaegang.pl_api.domain.topRecord
 
-import org.springframework.beans.factory.annotation.Value
+import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
@@ -10,25 +10,10 @@ import org.springframework.stereotype.Component
 class TopRecordUpdateScheduler(
     private val topRecordUpdater: TopRecordUpdater
 ) {
-    @Value("\${scheduler.topRecordUpdate.cron}")
-    val cron: String? = null
-
-    @Value("\${scheduler.enabled}")
-    val schedulerEnabled: Boolean = false
-
-    @Value("\${spring.datasource.url}")
-    val datasourceUrl: String? = null
-
-    init {
-        // TODO : 아 이거 왜 안되지
-        println("scheduler enabled")
-        println("cron: $cron")
-        println("schedulerEnabled: $schedulerEnabled")
-        println("datasourceUrl: $datasourceUrl")
-    }
-    @Scheduled(cron="\${scheduler.topRecordUpdate.cron}", zone="Asia/Seoul")
+    val logger = LoggerFactory.getLogger(TopRecordUpdateScheduler::class.java)
+    @Scheduled(cron="0/1 * * * * ?")
     fun updateTopRecord() {
-        println("scheduler activated")
+        logger.info("scheduler activated")
         //topRecordUpdater.updateTopRecord()
     }
 }
