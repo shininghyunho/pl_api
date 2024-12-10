@@ -11,9 +11,10 @@ class TopRecordUpdateScheduler(
     private val topRecordUpdater: TopRecordUpdater
 ) {
     val logger = LoggerFactory.getLogger(TopRecordUpdateScheduler::class.java)
-    @Scheduled(cron="0/1 * * * * ?")
+    // 매달 1일 3시에 실행
+    @Scheduled(cron="0 0 3 1 * ?")
     fun updateTopRecord() {
         logger.info("scheduler activated")
-        //topRecordUpdater.updateTopRecord()
+        topRecordUpdater.updateTopRecord()
     }
 }

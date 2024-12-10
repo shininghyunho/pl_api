@@ -4,7 +4,6 @@ spring:
     group:
       local :
         - local-db
-        - scheduler
       dev :
         - dev-db
         - scheduler
