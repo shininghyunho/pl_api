@@ -1,0 +1,32 @@
+package chaegang.pl_api.domain.topRecord
+
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Modifying
+import org.springframework.data.jpa.repository.Query
+import org.springframework.data.repository.query.Param
+import org.springframework.transaction.annotation.Transactional
+
+interface TopRecordRepository : JpaRepository<TopRecord, String> {
+    @Query(
+        value = """
+            SELECT * FROM top_record
+            WHERE body_weight > :minExclusiveBodyWeight
+            AND body_weight <= :maxInclusiveBodyWeight
+            AND equipment = :equipmentType
+            AND sex = :sexType
+            ORDER BY total DESC
+            LIMIT :limit
+        """, nativeQuery = true
+    )
+    fun findTopRecords(
+        @Param("minExclusiveBodyWeight") minExclusiveBodyWeight: Double,
+        @Param("maxInclusiveBodyWeight") maxInclusiveBodyWeight: Double,
+        @Param("equipmentType") equipmentType: String,
+        @Param("sexType") sexType: String,
+        @Param("limit") limit: Int? = 10
+    ): List<TopRecord>
+
+    @Modifying
+    @Query(value = """TRUNCATE TABLE top_record""", nativeQuery = true)
+    fun truncateTable()
+}

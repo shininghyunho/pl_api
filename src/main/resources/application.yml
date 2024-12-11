@@ -6,3 +6,4 @@ spring:
         - local-db
       dev :
         - dev-db
+        - scheduler

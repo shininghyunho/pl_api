@@ -1,4 +1,4 @@
-package chaegang.pl_api.domain.topAthletes
+package chaegang.pl_api.domain.topRecord.originalRecord
 
 import chaegang.pl_api.domain.athlete.Athlete
 import chaegang.pl_api.domain.athlete.AthleteRepository
@@ -10,7 +10,7 @@ import chaegang.pl_api.domain.federation.Federation
 import chaegang.pl_api.domain.federation.FederationRepository
 import chaegang.pl_api.domain.game.Game
 import chaegang.pl_api.domain.game.GameRepository
-import chaegang.pl_api.domain.topAthletes.dto.TopAthleteQueryResult
+import chaegang.pl_api.domain.topRecord.dto.TopRecordQueryResult
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.extensions.spring.SpringTestExtension
 import io.kotest.extensions.spring.SpringTestLifecycleMode
@@ -24,9 +24,9 @@ import org.springframework.context.annotation.Import
 import java.time.LocalDate
 
 @DataJpaTest
-@Import(TopAthletesRepository::class)
-class TopAthletesRepositoryTest (
-    @Autowired val topAthletesRepository: TopAthletesRepository,
+@Import(OriginalRecordRepository::class)
+class OriginalRecordRepositoryTest (
+    @Autowired val originalRecordRepository: OriginalRecordRepository,
     @Autowired val athleteRepository: AthleteRepository,
     @Autowired val federationRepository: FederationRepository,
     @Autowired val gameRepository: GameRepository,
@@ -54,6 +54,17 @@ class TopAthletesRepositoryTest (
             meetName = "Test Meet",
             federation = fpr
         ))
+        val testGame2 = gameRepository.save(Game(
+            event = "Test Event2",
+            country = "Korea",
+            state = "Seoul",
+            date = LocalDate.now(),
+            meetCountry = "Korea",
+            meetState = "Seoul",
+            meetTown = "Seoul",
+            meetName = "Test Meet2",
+            federation = fpr
+        ))
         val austin = athleteRepository.save(Athlete(
             name = "Austin",
             sex = "M"
@@ -75,6 +86,23 @@ class TopAthletesRepositoryTest (
             sanctioned = true,
             equipment = "Raw"
         ))
+        val austinGameRecord2 = athleteGameRecordRepository.save(AthleteGameRecord(
+            athlete = austin,
+            game = testGame2,
+            age = 30f,
+            bodyWeight = 66.0,
+            bestSquat = 310f,
+            bestBench = 210f,
+            bestDeadlift = 410f,
+            total = 930f,
+            dots = 123.0,
+            wilks = 456.0,
+            glossbrenner = 789.0,
+            goodlift = 1000.0,
+            tested = true,
+            sanctioned = true,
+            equipment = "Raw"
+        ))
         val taylor = athleteRepository.save(Athlete(
             name = "Taylor",
             sex = "M"
@@ -88,6 +116,23 @@ class TopAthletesRepositoryTest (
             bestBench = 200f,
             bestDeadlift = 300f,
             total = 800f,
+            dots = 123.0,
+            wilks = 456.0,
+            glossbrenner = 789.0,
+            goodlift = 900.0,
+            tested = true,
+            sanctioned = true,
+            equipment = "Raw"
+        ))
+        val taylorGameRecord2 = athleteGameRecordRepository.save(AthleteGameRecord(
+            athlete = taylor,
+            game = testGame2,
+            age = 30f,
+            bodyWeight = 68.0,
+            bestSquat = 310f,
+            bestBench = 210f,
+            bestDeadlift = 310f,
+            total = 830f,
             dots = 123.0,
             wilks = 456.0,
             glossbrenner = 789.0,
@@ -118,11 +163,11 @@ class TopAthletesRepositoryTest (
             equipment = "Raw"
         ))
     }
-    context("findTopAthletes success") {
+    context("findTopRecords success") {
         saveEntity()
         val minExclusiveBodyWeight = 66.0
         val maxInclusiveBodyWeight = 74.0
-        val response : List<TopAthleteQueryResult> = topAthletesRepository.findTopAthletes(
+        val response : List<TopRecordQueryResult> = originalRecordRepository.findTopRecords(
             minExclusiveBodyWeight = minExclusiveBodyWeight,
             maxInclusiveBodyWeight = maxInclusiveBodyWeight,
             equipmentType = EquipmentType.RAW,
@@ -151,12 +196,17 @@ class TopAthletesRepositoryTest (
         should("default response count <= 10") {
             response.size shouldBeLessThanOrEqual(10)
         }
+        // have distinct name
+        should("response should have distinct name") {
+            val nameSet = response.map { it.name }.toSet()
+            nameSet.size shouldBe response.size
+        }
     }
-    context("findTopAthletes minExclusiveBodyWeight > maxInclusiveBodyWeight") {
+    context("findTopRecords minExclusiveBodyWeight > maxInclusiveBodyWeight") {
         saveEntity()
         val minExclusiveBodyWeight = 74.0
         val maxInclusiveBodyWeight = 66.0
-        val response : List<TopAthleteQueryResult> = topAthletesRepository.findTopAthletes(
+        val response : List<TopRecordQueryResult> = originalRecordRepository.findTopRecords(
             minExclusiveBodyWeight = minExclusiveBodyWeight,
             maxInclusiveBodyWeight = maxInclusiveBodyWeight,
             equipmentType = EquipmentType.RAW,
@@ -166,11 +216,11 @@ class TopAthletesRepositoryTest (
             response.isEmpty() shouldBe true
         }
     }
-    context("findTopAthletes limit < 1") {
+    context("findTopRecords limit < 1") {
         saveEntity()
         val minExclusiveBodyWeight = 66.0
         val maxInclusiveBodyWeight = 74.0
-        val response : List<TopAthleteQueryResult> = topAthletesRepository.findTopAthletes(
+        val response : List<TopRecordQueryResult> = originalRecordRepository.findTopRecords(
             minExclusiveBodyWeight = minExclusiveBodyWeight,
             maxInclusiveBodyWeight = maxInclusiveBodyWeight,
             equipmentType = EquipmentType.RAW,
